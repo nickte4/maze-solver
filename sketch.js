@@ -6,6 +6,16 @@ const rows = Math.floor(canvasHeight / gridW);
 
 var grid = new Array(cols);
 var current; // current cell
+var wallList = [];
+
+// remove element from array
+function removeFromArray(arr, elem) {
+  for (var i = arr.length - 1; i >= 0; i--) {
+    if (arr[i] == elem) {
+      arr.splice(i, 1);
+    }
+  }
+}
 
 function displayGrid(grid, gridW) {
   for (var i = 0; i < cols; i++) {
@@ -15,32 +25,8 @@ function displayGrid(grid, gridW) {
   }
 }
 
-// removes walls on cells depending on start to end traversal
-function removeWalls(current, next) {
-  // if curr -> next
-  if (current.i - next.i == -1) {
-    current.wall = false;
-    next.wall = false;
-  }
-  // if next <- curr
-  if (current.i - next.i == 1) {
-    current.wall = false;
-    next.wall = false;
-  }
-  // if curr v next
-  if (current.j - next.j == -1) {
-    current.wall = false;
-    next.wall = false;
-  }
-  // if curr ^ next
-  if (current.j - next.j == 1) {
-    current.wall = false;
-    next.wall = false;
-  }
-}
-
 function setup() {
-  frameRate(10);
+  //frameRate(25);
 
   for (var i = 0; i < cols; i++) {
     grid[i] = new Array(rows);
@@ -55,22 +41,28 @@ function setup() {
 
   // make first cell the current cell
   current = grid[0][0];
+  current.wall = false;
+  current.addWalls(wallList);
+  current.visited = true;
 }
 
 function draw() {
   createCanvas(canvasWidth, canvasHeight);
   background(51);
   displayGrid(grid, gridW);
-  current.visited = true;
-  current.highlight(gridW);
-  current.inMaze = true;
 
-  var next = current.checkNeighbors();
-  if (next) {
-    next.visited = true;
-    // stack push
-    // remove walls
-    next.wall = false;
-    current = next;
+  if (wallList.length > 0) {
+    var r = floor(random(0, wallList.length));
+    var nextWall = wallList[r];
+    if (nextWall.checkNeighbors()) {
+      nextWall.addWalls(wallList);
+      nextWall.visited = true;
+      nextWall.wall = false;
+      nextWall.highlight(gridW);
+    }
+    removeFromArray(wallList, nextWall);
+  } else {
+    console.log("Created maze!");
+    noLoop();
   }
 }
