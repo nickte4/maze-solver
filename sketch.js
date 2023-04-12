@@ -1,6 +1,6 @@
 const canvasWidth = 500;
 const canvasHeight = 500;
-const gridW = 10;
+const gridW = 25;
 const cols = Math.floor(canvasWidth / gridW);
 const rows = Math.floor(canvasHeight / gridW);
 const gridSize = cols * rows;
