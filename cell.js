@@ -8,6 +8,7 @@ class Cell {
     //this.neighbors = [];
     this.wall = true;
     this.visited = false; // tracks if visited
+    this.inMaze = false;
   }
 
   // PUBLIC methods
@@ -19,17 +20,18 @@ class Cell {
 
     fill(255);
     if (this.wall) fill(0);
+    if (this.inMaze) fill(255);
     noStroke();
     rect(x, y, w - 1, w - 1);
 
-    if (this.visited) {
-      noStroke();
-      fill(255, 0, 255, 100);
-      rect(x, y, w - 1, w - 1);
-    }
+    // if (this.visited) {
+    //   noStroke();
+    //   fill(255);
+    //   rect(x, y, w - 1, w - 1);
+    // }
   }
   checkNeighbors() {
-    neighbors = [];
+    var neighbors = [];
     // cell above
     if (this.j > 0) {
       var top = grid[this.i][this.j - 1];
@@ -64,6 +66,6 @@ class Cell {
     let y = this.j * w;
     noStroke();
     fill(0, 255, 0, 255);
-    rect(x, y, w, w);
+    rect(x, y, w - 1, w - 1);
   }
 }

@@ -1,5 +1,5 @@
-const canvasWidth = 600;
-const canvasHeight = 600;
+const canvasWidth = 400;
+const canvasHeight = 400;
 const gridW = 40;
 const cols = Math.floor(canvasWidth / gridW);
 const rows = Math.floor(canvasHeight / gridW);
@@ -15,7 +15,33 @@ function displayGrid(grid, gridW) {
   }
 }
 
+// removes walls on cells depending on start to end traversal
+function removeWalls(current, next) {
+  // if curr -> next
+  if (current.i - next.i == -1) {
+    current.wall = false;
+    next.wall = false;
+  }
+  // if next <- curr
+  if (current.i - next.i == 1) {
+    current.wall = false;
+    next.wall = false;
+  }
+  // if curr v next
+  if (current.j - next.j == -1) {
+    current.wall = false;
+    next.wall = false;
+  }
+  // if curr ^ next
+  if (current.j - next.j == 1) {
+    current.wall = false;
+    next.wall = false;
+  }
+}
+
 function setup() {
+  frameRate(10);
+
   for (var i = 0; i < cols; i++) {
     grid[i] = new Array(rows);
   }
@@ -37,4 +63,14 @@ function draw() {
   displayGrid(grid, gridW);
   current.visited = true;
   current.highlight(gridW);
+  current.inMaze = true;
+
+  var next = current.checkNeighbors();
+  if (next) {
+    next.visited = true;
+    // stack push
+    // remove walls
+    next.wall = false;
+    current = next;
+  }
 }
