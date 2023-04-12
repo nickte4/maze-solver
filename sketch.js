@@ -60,7 +60,7 @@ function draw() {
   displayGrid(grid, gridW);
 
   if (mazeStarted) {
-    button.style("background-color", color(50, 200, 50));
+    button.style("background-color", color(200, 0, 0));
     current.wall = false;
     if (wallList.length > 0) {
       var r = floor(random(0, wallList.length));
