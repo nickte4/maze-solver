@@ -1,6 +1,6 @@
 const canvasWidth = 400;
 const canvasHeight = 400;
-const gridW = 40;
+const gridW = 20;
 const cols = Math.floor(canvasWidth / gridW);
 const rows = Math.floor(canvasHeight / gridW);
 
@@ -26,7 +26,7 @@ function displayGrid(grid, gridW) {
 }
 
 function setup() {
-  //frameRate(25);
+  //   frameRate(5);
 
   for (var i = 0; i < cols; i++) {
     grid[i] = new Array(rows);
@@ -54,7 +54,7 @@ function draw() {
   if (wallList.length > 0) {
     var r = floor(random(0, wallList.length));
     var nextWall = wallList[r];
-    if (nextWall.checkNeighbors()) {
+    if (nextWall.checkNeighbors(grid)) {
       nextWall.addWalls(wallList);
       nextWall.visited = true;
       nextWall.wall = false;
