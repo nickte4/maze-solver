@@ -40,7 +40,7 @@ function setup() {
   }
 
   // make first cell the current cell
-  current = grid[0][0];
+  current = grid[1][1];
   current.wall = false;
   current.addWalls(wallList);
   current.visited = true;

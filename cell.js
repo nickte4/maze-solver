@@ -9,28 +9,57 @@ class Cell {
     this.attachedCell;
   }
   // PRIVATE methods
+  #checkTop(grid) {
+    if (this.j > 1) {
+      return grid[this.i][this.j - 1];
+    }
+    return null;
+  }
+
+  #checkRight(grid) {
+    if (this.i < cols - 2) {
+      return grid[this.i + 1][this.j];
+    }
+    return null;
+  }
+  #checkBottom(grid) {
+    if (this.j < rows - 2) {
+      return grid[this.i][this.j + 1];
+    }
+    return null;
+  }
+  #checkLeft(grid) {
+    if (this.i > 1) {
+      return grid[this.i - 1][this.j];
+    }
+    return null;
+  }
   #checkTRight(grid) {
     if (this.i < cols - 1 && this.j > 0) {
       return grid[this.i + 1][this.j - 1];
     }
+    return null;
   }
 
   #checkBRight(grid) {
     if (this.i < cols - 1 && this.j < rows - 1) {
       return grid[this.i + 1][this.j + 1];
     }
+    return null;
   }
 
   #checkTLeft(grid) {
     if (this.i > 0 && this.j > 0) {
       return grid[this.i - 1][this.j - 1];
     }
+    return null;
   }
 
   #checkBLeft(grid) {
     if (this.i > 0 && this.j < rows - 1) {
       return grid[this.i - 1][this.j + 1];
     }
+    return null;
   }
 
   #fromTop(grid) {
@@ -114,27 +143,20 @@ class Cell {
   }
   checkNeighbors(grid) {
     let numVisited = 0;
-    let top, right, bottom, left;
     // cell above
-    if (this.j > 0) {
-      top = grid[this.i][this.j - 1];
-      if (top.visited) numVisited++;
-    }
+    var top = this.#checkTop(grid);
+    if (top && top.visited) numVisited++;
     // cell to right
-    if (this.i < cols - 1) {
-      right = grid[this.i + 1][this.j];
-      if (right.visited) numVisited++;
-    }
+    var right = this.#checkRight(grid);
+    if (right && right.visited) numVisited++;
     // cell below
-    if (this.j < rows - 1) {
-      bottom = grid[this.i][this.j + 1];
-      if (bottom.visited) numVisited++;
-    }
+    var bottom = this.#checkBottom(grid);
+    if (bottom && bottom.visited) numVisited++;
     // cell to left
-    if (this.i > 0) {
-      left = grid[this.i - 1][this.j];
-      if (left.visited) numVisited++;
-    }
+    var left = this.#checkLeft(grid);
+    if (left && left.visited) numVisited++;
+
+    // now check diags
     if (numVisited == 1) {
       this.attachedCell = this.#findAttachedCell(grid);
       return this.#checkDiags(grid, top, right, bottom, left);
@@ -144,48 +166,38 @@ class Cell {
 
   #findAttachedCell(grid) {
     // cell above
-    if (this.j > 0) {
-      var top = grid[this.i][this.j - 1];
-      if (!top.wall) return top;
-    }
+    var top = this.#checkTop(grid);
+    if (top && !top.wall) return top;
+
     // cell to right
-    if (this.i < cols - 1) {
-      var right = grid[this.i + 1][this.j];
-      if (!right.wall) return right;
-    }
+    var right = this.#checkRight(grid);
+    if (right && !right.wall) return right;
+
     // cell below
-    if (this.j < rows - 1) {
-      var bottom = grid[this.i][this.j + 1];
-      if (!bottom.wall) return bottom;
-    }
+    var bottom = this.#checkBottom(grid);
+    if (bottom && !bottom.wall) return bottom;
+
     // cell to left
-    if (this.i > 0) {
-      var left = grid[this.i - 1][this.j];
-      if (!left.wall) return left;
-    }
+    var left = this.#checkLeft(grid);
+    if (left && !left.wall) return left;
   }
 
   addWalls(wallList) {
     // cell above
-    if (this.j > 0) {
-      var top = grid[this.i][this.j - 1];
-      if (top.wall) wallList.push(top);
-    }
+    var top = this.#checkTop(grid);
+    if (top && top.wall) wallList.push(top);
+
     // cell to right
-    if (this.i < cols - 1) {
-      var right = grid[this.i + 1][this.j];
-      if (right.wall) wallList.push(right);
-    }
+    var right = this.#checkRight(grid);
+    if (right && right.wall) wallList.push(right);
+
     // cell below
-    if (this.j < rows - 1) {
-      var bottom = grid[this.i][this.j + 1];
-      if (bottom.wall) wallList.push(bottom);
-    }
+    var bottom = this.#checkBottom(grid);
+    if (bottom && bottom.wall) wallList.push(bottom);
+
     // cell to left
-    if (this.i > 0) {
-      var left = grid[this.i - 1][this.j];
-      if (left.wall) wallList.push(left);
-    }
+    var left = this.#checkLeft(grid);
+    if (left && left.wall) wallList.push(left);
   }
 
   highlight(gridWidth) {
