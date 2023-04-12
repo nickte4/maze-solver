@@ -205,7 +205,7 @@ class Cell {
     let x = this.i * w;
     let y = this.j * w;
     noStroke();
-    fill(0, 255, 0, 255);
+    fill(255, 0, 0);
     rect(x, y, w - 1, w - 1);
   }
 }
