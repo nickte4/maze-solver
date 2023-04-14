@@ -2,7 +2,7 @@
 
 ## About The Project
 
-A JavaScript project that creates a maze, using Prim's algorithm and recursive backtracking, and solves it with the A\* pathfinding algorithm.
+A JavaScript project that creates a maze, using randomized Prim's algorithm, and solves it with the A\* pathfinding algorithm.
 
 ## Built With
 
